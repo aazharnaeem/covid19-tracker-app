@@ -1,25 +1,31 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import {Router, Route, Switch,NavLink} from 'react-router-dom'
+import Global from './Components/GlobalData'
+import Country from './Components/Country'
+import Header from './Components/Header'
+import Graphs from './Components/Graphs'
+import _404 from './Components/_404'
+import history from './Components/History'
+
 
 function App() {
+  
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router history={history}>
+      <Header />
+      <div style={{display:'inline-flex', marginTop:'50px'}}>
+                        <h4><NavLink style={{color:'Black',margin:'10px'}} exact to='/'>Global</NavLink></h4>
+                        <h4><NavLink style={{color:'Black',margin:'10px'}}  to="/Countries">Countries</NavLink></h4>
+                        <h4><NavLink style={{color:'Black',margin:'10px'}} to='/graph'>Graph</NavLink></h4>
+                        </div>
+      <Switch>
+        <Route exact path="/" component={Global}></Route>
+        <Route path="/Countries" component={Country}></Route>
+        <Route path="/graph" component={Graphs}></Route>
+        <Route path="**" component={_404}></Route>
+      </Switch>
+    </Router>
   );
 }
 
