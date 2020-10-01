@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import {Link} from 'react-router-dom'
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
@@ -14,8 +15,9 @@ const useStyles = makeStyles((theme) => ({
         bordercolor: 'green',
         padding:'10px',
     },
-    container:{
-     }
+    lnk:{
+        textDecoration:'none',
+    }
 }));
 
 
@@ -47,20 +49,23 @@ const Country = () => {
                         // console.log(country[val])
                         let con = country[val]
                         delete con.source
-                        delete con.ourid
+                        // delete con.ourid
                         delete con.code
                         // con.replace(/title/g,`${}`)
+                        // console.log(con.ourid)
                         return (
                             <>
-                            <Grid item xs={12} sm={6} key={con.ourid}>
+                            <Grid item xs={12} sm={6} >
                                 <h1><u>{con.title.toUpperCase()}</u></h1>
+                                <Link to={`details${con.ourid}`} className={classes.lnk}>
                                 <Paper className={classes.paper} elevation={16} key={con.ourid}>
 
                                 {Object.keys(con).map((value) => {
+                                
                                     // console.log(value)
-                                   return (
+                                    return (
                                         <>
-                                        <Grid container className={classes.container} key={con.ourid}>
+                                        <Grid container className={classes.container} >
                                             <Grid item xs={6} >
                                             <strong style={{color:'blue'}}>{value.replace(/_/g, ' ').toUpperCase() + ':'}</strong>
                                             </Grid>
@@ -72,6 +77,7 @@ const Country = () => {
                                     )
                                 })}
                                 </Paper>
+                                </Link>
                             </Grid>
                                 </>
                         )
