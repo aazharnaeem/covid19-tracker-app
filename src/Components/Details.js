@@ -26,24 +26,27 @@ const useStyles = makeStyles((theme) => ({
 
 const Details =()=>{
     const classes = useStyles();
-
+    
     let [country, Setcountry] = useState({})
     let {ourid} = useParams()
+    
     // console.log(ourid)
-
+    
     useEffect(() => {
         
         async function getData() {
             let res = await fetch('https://api.thevirustracker.com/free-api?countryTotals=ALL');
             let data = await res.json();
+            console.log(data.countryitems[0][ourid])
             Setcountry(data.countryitems[0][ourid])
         }
         getData()
 
     }, [ourid])
     // console.log(country)
+    // console.log(cdd+"cdd")
     delete country.source
-    delete country.ourid
+    // delete country.ourid
     // console.log(country.total_cases)
 
 
@@ -69,6 +72,7 @@ const Details =()=>{
                 <h1 >{country.title}</h1>
                 <Grid container spacing={3}>
                     {Object.keys(country).map((value, ind) => {
+                        // console.log(country[value]+':::::::first')
                         return (
                             <Grid item xs={12} sm={3} key={ind}>
                                 <Paper elevation={10} className={classes.paper}><strong>{value.replace(/_/g, ' ').toUpperCase()}</strong><br /><br />{country[value]}</Paper>

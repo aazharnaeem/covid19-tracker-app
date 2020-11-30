@@ -36,7 +36,9 @@ const Global = () => {
         getData()
     }, [])
 
-    console.log(Data)
+    // console.log(Data)
+    // if(!Data.length)
+    // return <h3>Loading...</h3>
 
     const data = {
         labels: ['Total CASES', 'Total RECOVERED', 'Total UNRESOLVED', 'Total DEATHS','Total New Cases Today','Total New Deaths today',
@@ -54,6 +56,7 @@ const Global = () => {
             }
         ]
     };
+
     return (
         <div>
 
