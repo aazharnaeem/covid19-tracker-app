@@ -1,9 +1,9 @@
-import React,{useEffect,useState} from 'react'
+import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
-import { Bar } from 'react-chartjs-2';
+// import { Bar } from 'react-chartjs-2';
 
 
 
@@ -12,7 +12,7 @@ const useStyles = makeStyles((theme) => ({
         flexGrow: 1,
         textAlign: 'center',
         margin: '0 auto',
-        padding:'20px',
+        padding: '20px',
 
     },
     paper: {
@@ -24,30 +24,27 @@ const useStyles = makeStyles((theme) => ({
 
 
 
-const Details =()=>{
+const Details = () => {
     const classes = useStyles();
-    
+
     let [country, Setcountry] = useState({})
-    let {Slug} = useParams()
-    
+    let { Slug } = useParams()
     // console.log(Slug)
-    
+
     useEffect(() => {
-        
+
         async function getData() {
             let res = await fetch('https://api.covid19api.com/summary');
             let data = await res.json();
-            Setcountry(data.Country)
+            // console.log(data.Countries[0].Slug)
+            Setcountry(data.Countries[0][Slug])
         }
         getData()
 
     }, [Slug])
+    
     // console.log(country)
-    // console.log(cdd+"cdd")
-    // delete country.source
-    // delete country.ourid
-    // console.log(country.total_cases)
-
+    delete country.Premium
 
     // const data = {
     //     labels: ['Total CASES', 'Total RECOVERED', 'Total UNRESOLVED', 'Total DEATHS','Total New Cases Today','Total New Deaths today',
@@ -65,14 +62,17 @@ const Details =()=>{
     //         }
     //     ]
     // };
-    return(
+    return (
         <div>
             <div className={classes.root}>
-                <h1 >{country.title}</h1>
+                <h1 >{country.Country}</h1>
                 <Grid container spacing={3}>
                     {Object.keys(country).map((value, ind) => {
+                       
+
                         // console.log(country[value]+':::::::first')
                         return (
+                            
                             <Grid item xs={12} sm={3} key={ind}>
                                 <Paper elevation={10} className={classes.paper}><strong>{value.replace(/_/g, ' ').toUpperCase()}</strong><br /><br />{country[value]}</Paper>
                             </Grid>
@@ -80,7 +80,7 @@ const Details =()=>{
                     })}
                 </Grid>
             </div>
-            <div>
+            {/* <div>
                 <h2>Covid-19 {country.title} Stats</h2>
                 <Bar
                     data={data}
@@ -90,7 +90,7 @@ const Details =()=>{
                         maintainAspectRatio: false
                     }}
                 />
-            </div>
+            </div> */}
         </div>
     )
 }

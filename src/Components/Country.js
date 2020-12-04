@@ -53,7 +53,7 @@ const Country = () => {
                                     {
                                         Object.keys(value).map((val, ind) => {
                                             var con = value[val]
-                                            // console.dir(val.Slug)
+                                            // console.dir(value.Slug)
                                             return (
                                                 <div key={ind}>
                                                     <Link to={`details${value.Slug}`} className={classes.lnk}>
