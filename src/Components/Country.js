@@ -25,98 +25,64 @@ const useStyles = makeStyles((theme) => ({
 const Country = () => {
     const classes = useStyles();
     let [country, Setcountry] = useState([])
+    // let [dat , setdat] = useState([])
 
     useEffect(() => {
 
         async function getData() {
-            let res = await fetch('https://api.apify.com/v2/key-value-stores/tVaYRsPHLjNdNBu7S/records/LATEST?disableRedirect=true');
+            let res = await fetch('https://api.covid19api.com/summary');
             let data = await res.json();
+            // data.Countries.delete(Premium)
+            Setcountry(data.Countries)
 
-            Setcountry(data)
-            // console.log(data)
-            // console.log(data.countryitems[0])
         }
         getData()
 
     }, [])
     // console.log(country)
-
     return (
         <div>
-            <div className={classes.root}>
+            {
+                country.map((value, ind) => {
+                    delete value.Premium
+                    // console.log(value.Slug)
+                    return (
+                        <div key={ind}>
+                            <div className={classes.root}>
+                                <Grid container spacing={3}>
+                                    {
+                                        Object.keys(value).map((val, ind) => {
+                                            var con = value[val]
+                                            // console.dir(val.Slug)
+                                            return (
+                                                <div key={ind}>
+                                                    <Link to={`details${value.Slug}`} className={classes.lnk}>
+                                                        <Paper className={classes.paper} elevation={16} key={con.ourid}>
 
-                {
-                    country.map((all) => {
-                        delete all.moreData
-                        delete all.historyData
-                        delete all.sourceUrl
-                        //    console.log(all)
-                        return (
-                            Object.keys(all).map((val) => {
-                                var al = all[val]
-                                // console.log(val)
-                                return (
-                                    <>
-                                        <table border={1}>
-                                            <tr>
-                                                <td>{val}</td>
-                                                <td>{al}</td>
-                                            </tr>
-                                        </table>
-                                    </>
-                                )
-                            })
-                        )
-                    })
-                }
-            </div>
+                                                            <Grid container className={classes.container} >
+                                                                <Paper item xs={6} >
+                                                                    <strong style={{ color: 'blue' }}>{val.replace(/_/g, ' ').toUpperCase() + ':'}</strong>
+                                                                </Paper>
+                                                                <Paper item xs={6} >
+                                                                    <strong>{con}</strong>
+                                                                </Paper>
+                                                            </Grid>
+                                                        </Paper>
+                                                    </Link>
+                                                </div>
+
+                                            )
+                                        })
+                                    }
+
+                                </Grid>
+                            </div>
+                        </div>
+                    )
+                })
+            }
+
         </div>
-
-
-        // <div>
-        //     <div className={classes.root}>
-        //         <Grid container spacing={3}>
-        //             {Object.keys(country).map((val) => {
-        //                 // console.log(country[val])
-        //                 let con = country[val]
-        //                 delete con.source
-        //                 // delete con.ourid
-        //                 delete con.code
-        //                 // con.replace(/title/g,`${}`)
-        //                 // console.log(con.ourid)
-        //                 return (
-        //                     <>
-        //                     <Grid item xs={12} sm={6} >
-        //                         <h1><u>{con.title.toUpperCase()}</u></h1>
-        //                         <Link to={`details${con.ourid}`} className={classes.lnk}>
-        //                         <Paper className={classes.paper} elevation={16} key={con.ourid}>
-
-        //                         {Object.keys(con).map((value) => {
-
-        //                             // console.log(value)
-        //                             return (
-        //                                 <>
-        //                                 <Grid container className={classes.container} >
-        //                                     <Grid item xs={6} >
-        //                                     <strong style={{color:'blue'}}>{value.replace(/_/g, ' ').toUpperCase() + ':'}</strong>
-        //                                     </Grid>
-        //                                     <Grid item xs={6} >
-        //                                     <strong>{con[value]}</strong>
-        //                                         </Grid>
-        //                                 </Grid>
-        //                                 </>
-        //                             )
-        //                         })}
-        //                         </Paper>
-        //                         </Link>
-        //                     </Grid>
-        //                         </>
-        //                 )
-        //             })}
-        //         </Grid>
-
-        //     </div>
-        // </div>
     )
 }
 
