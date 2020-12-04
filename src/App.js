@@ -25,7 +25,7 @@ function App() {
         <Route exact path="/" component={Global}></Route>
         <Route path="/Countries" component={Country}></Route>
         <Route path="/graph" component={Graphs}></Route>
-        <Route path="/details:Slug" component={Details}></Route>
+        <Route path="/details:index" component={Details}></Route>
         <Route path="**" component={_404}></Route>
       </Switch>
     </Router>

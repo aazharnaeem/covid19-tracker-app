@@ -17,7 +17,11 @@ const useStyles = makeStyles((theme) => ({
     },
     lnk: {
         textDecoration: 'none',
-    }
+    },
+    // container: {
+    //     display:'flex',
+    //     flexflow: 'wrap'
+    // }
 }));
 
 
@@ -25,14 +29,12 @@ const useStyles = makeStyles((theme) => ({
 const Country = () => {
     const classes = useStyles();
     let [country, Setcountry] = useState([])
-    // let [dat , setdat] = useState([])
 
     useEffect(() => {
 
         async function getData() {
             let res = await fetch('https://api.covid19api.com/summary');
             let data = await res.json();
-            // data.Countries.delete(Premium)
             Setcountry(data.Countries)
 
         }
@@ -40,42 +42,47 @@ const Country = () => {
 
     }, [])
     // console.log(country)
+
+    if (!country) {
+        return <h3>Loading...</h3>
+    }
     return (
         <div>
             {
-                country.map((value, ind) => {
+                country.map((value, index) => {
                     delete value.Premium
                     // console.log(value.Slug)
                     return (
-                        <div key={ind}>
+                        <div key={index}>
                             <div className={classes.root}>
-                                <Grid container spacing={3}>
-                                    {
-                                        Object.keys(value).map((val, ind) => {
-                                            var con = value[val]
-                                            // console.dir(value.Slug)
-                                            return (
-                                                <div key={ind}>
-                                                    <Link to={`details${value.Slug}`} className={classes.lnk}>
-                                                        <Paper className={classes.paper} elevation={16} key={con.ourid}>
+                                {/* <Grid container spacing={5} classname={classes.container}>
+                                    <Grid xs={5} sm={5}> */}
 
-                                                            <Grid container className={classes.container} >
-                                                                <Paper item xs={6} >
-                                                                    <strong style={{ color: 'blue' }}>{val.replace(/_/g, ' ').toUpperCase() + ':'}</strong>
+                                        <h1 style={{ textAlign: 'center' }}><u>{value.Country.toUpperCase()}</u></h1>
+                                        {
+                                            Object.keys(value).map((val, ind) => {
+                                                var con = value[val]
+                                                // console.dir(value.Slug)
+                                                return (
+                                                        <div key={ind}>
+                                                            <Link to={`details${index}`} className={classes.lnk}>
+                                                                <Paper className={classes.paper} elevation={16} key={con.ourid}>
+                                                                    <Grid container className={classes.container} >
+                                                                        <Grid xs={5} sm={5}>
+                                                                            <strong style={{ color: 'blue' }}>{val.replace(/_/g, ' ').toUpperCase() + ':'}</strong>
+                                                                        </Grid>
+                                                                        <Grid xs={5} sm={5}>
+                                                                            <strong>{con}</strong>
+                                                                        </Grid>
+                                                                    </Grid>
                                                                 </Paper>
-                                                                <Paper item xs={6} >
-                                                                    <strong>{con}</strong>
-                                                                </Paper>
-                                                            </Grid>
-                                                        </Paper>
-                                                    </Link>
-                                                </div>
-
-                                            )
-                                        })
-                                    }
-
-                                </Grid>
+                                                            </Link>
+                                                        </div>
+                                                )
+                                            })
+                                        }
+                                    {/* </Grid>
+                                </Grid> */}
                             </div>
                         </div>
                     )

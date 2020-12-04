@@ -28,20 +28,20 @@ const Details = () => {
     const classes = useStyles();
 
     let [country, Setcountry] = useState({})
-    let { Slug } = useParams()
-    // console.log(Slug)
+    let { index } = useParams()
+    // console.log(index)
 
     useEffect(() => {
 
         async function getData() {
             let res = await fetch('https://api.covid19api.com/summary');
             let data = await res.json();
-            // console.log(data.Countries[0].Slug)
-            Setcountry(data.Countries[0][Slug])
+            // console.log(data.Countries[index])
+            Setcountry(data.Countries[index])
         }
         getData()
 
-    }, [Slug])
+    }, [index])
     
     // console.log(country)
     delete country.Premium
